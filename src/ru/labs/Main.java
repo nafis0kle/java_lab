@@ -7,7 +7,7 @@ package ru.labs;
 
 public class Main {
     public static void main(String[] args) {
-        LabsWorker labsWorker = new LabsWorker(args);
+        LabsWorker labsWorker = new LabsWorker(args, new Listener());
         labsWorker.doLab();
     }
 }

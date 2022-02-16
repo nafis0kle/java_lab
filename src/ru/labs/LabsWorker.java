@@ -15,16 +15,17 @@ import java.util.Scanner;
  * @since 16.02.2022
  */
 public class LabsWorker {
-    private static final Listener listener = new Listener();
-    private final static int MAX_VALUE = 10;
+    private static final int MAX_VALUE = 10;
+    private final Listener listener;
     private final String[] args;
+    private int forbiddenValue;
 
-    public LabsWorker(String[] args){
+    public LabsWorker(String[] args, Listener listener){
         this.args = args;
+        this.listener = listener;
     }
 
     public void doLab() {
-        int N;
         String outputPath;
 
         System.out.println("Enter file path to init N number: ");
@@ -32,42 +33,31 @@ public class LabsWorker {
         String inputPath = scanner.next();
 
         try (BufferedReader br = new BufferedReader(new FileReader(inputPath))){
-            N = Integer.parseInt(br.readLine());
+            forbiddenValue = Integer.parseInt(br.readLine());
             outputPath = br.readLine();
 
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputPath))){
-                boolean result = findAndOutputLists(N, args, bw);
+                boolean result = findAndOutputLists(bw);
                 IEvent event = new GetResultEvent();
                 listener.generateEvent(event, bw);
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    private Boolean findAndOutputLists(Integer N, String[] args, BufferedWriter bw) throws IOException {
+    private Boolean findAndOutputLists(BufferedWriter bw) throws IOException {
         List<Integer> evenList = new ArrayList<>();
         List<Integer> oddList = new ArrayList<>();
         String outputStr;
-
         int arg;
+
         for(String str : args) {
             try {
                 arg = Integer.parseInt(str);
-
-                if (arg > MAX_VALUE) {
-                    outputStr = "Each argument must be less than " + MAX_VALUE;
-                    throw new IllegalArgumentException(outputStr);
-
-                } else if (arg == N) {
-                    IEvent iEvent = new EqualEvent();
-                    listener.generateEvent(iEvent, bw);
-
-                    outputStr = "The number " + N + " is illegal";
-                    throw new IllegalArgumentException(outputStr);
-
-                }
+                checkMaxValue(arg);
+                checkForbiddenValue(arg, forbiddenValue, bw);
 
                 if (arg % 2 == 0) {
                     evenList.add(arg);
@@ -85,11 +75,10 @@ public class LabsWorker {
         }
 
         evenList.removeIf(v -> v >= 0);
-        oddList.removeIf(v -> v < 0);
-
         outputStr = "List of even and negative numbers: " + evenList;
         outputStrToConsoleAndFile(bw, outputStr);
 
+        oddList.removeIf(v -> v < 0);
         outputStr = "List of odd and positive numbers: " + oddList;
         outputStrToConsoleAndFile(bw, outputStr);
 
@@ -101,5 +90,22 @@ public class LabsWorker {
         System.out.println(str);
         IEvent event2 = new OutputThreadEvent();
         listener.generateEvent(event2, bw);
+    }
+
+    private void checkMaxValue(int arg){
+        if (arg > MAX_VALUE) {
+            String str = "Each argument must be less than " + MAX_VALUE;
+            throw new IllegalArgumentException(str);
+        }
+    }
+
+    private void checkForbiddenValue(int arg, int forbiddenValue, BufferedWriter bw) throws IOException {
+        if (arg == forbiddenValue) {
+            IEvent iEvent = new EqualEvent();
+            listener.generateEvent(iEvent, bw);
+
+            String str = "The number " + forbiddenValue + " is illegal";
+            throw new IllegalArgumentException(str);
+        }
     }
 }
