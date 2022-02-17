@@ -1,7 +1,6 @@
-Each argument must be less than 10---There was a call to an external file
+Illegal characterFor input string: "r"---There was a call to an external file
 ---Equal event handed
 The number 5 is illegal---There was a call to an external file
-Illegal characterFor input string: "a"---There was a call to an external file
 List of even and negative numbers: [-2]---There was a call to an external file
-List of odd and positive numbers: [3]---There was a call to an external file
+List of odd and positive numbers: [1]---There was a call to an external file
 ---Got result of function
