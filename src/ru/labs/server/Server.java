@@ -1,4 +1,4 @@
-package ru.labs;
+package ru.labs.server;
 
 import java.io.*;
 import java.net.*;
