@@ -1,4 +1,4 @@
-package ru.labs.inter;
+package ru.labs.compute;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

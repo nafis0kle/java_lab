@@ -1,6 +1,6 @@
 package ru.labs.client;
 
-import ru.labs.inter.Task;
+import ru.labs.compute.Task;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,12 +10,14 @@ import java.util.List;
  * @author nafis
  * @since 13.03.2022
  */
+
 public class MyTask implements Task<String>, Serializable {
     private final String[] args;
 
     public MyTask(String[] args){
         this.args = args;
     }
+
     @Override
     public String execute() {
         List<Integer> evenList = new ArrayList<>();

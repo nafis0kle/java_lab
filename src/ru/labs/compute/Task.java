@@ -1,4 +1,4 @@
-package ru.labs.inter;
+package ru.labs.compute;
 
 /**
  * @author nafis
