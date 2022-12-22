@@ -1,2 +1,0 @@
-5
-C:\Java_f\Lab_ide\output.txt
